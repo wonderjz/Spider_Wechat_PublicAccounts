@@ -185,8 +185,8 @@ def get_exist_id(tid, table, tid_list=None):
         '''.format(tid, table, str(tid_list).replace('[', '').replace(']', ''))
 
     connection = pg.connect(database="pg_fk_data",
-                            user="postgres", password="qmqb",
-                            host="120.77.111.135", port="5432")
+                            user="postgres", password=,
+                            host=, port=)
     result = selectPg(connection, sql)
     if result is None:
         result = {tid: []}
@@ -478,12 +478,12 @@ def insertData(connection, table, data):
         placeholder_list = '%s, ' * len(data.columns)  # 构建sql中的占位符
         placeholder_list = placeholder_list[:len(placeholder_list)-2]  # 去除占位符多于的,和空格
 
-        # connection = pysql.connect(host='10.10.60.31', port=3306, user='u_fk_data',
-        #                            password='0601a9c01b',db='fk_data',charset='utf8mb4',
+        # connection = pysql.connect(host=, port=3306, user='u_fk_data',
+        #                            password='b',db='fk_data',charset='utf8mb4',
         #                            cursorclass = pysql.cursors.DictCursor)
         # connection = pg.connect(database="pg_fk_data",
-        #                 user="postgres", password="qmqb",
-        #                 host="120.77.111.135", port="5432")
+        #                 user="postgres", password=,
+        #                 host="", port="5432")
         cursor = connection.cursor()   # 通过cursor创建游标
         sql = """INSERT INTO {0} ({1}) VALUES({2})""".format(
             table, values_list, placeholder_list)  # 编写插入sql
@@ -534,12 +534,8 @@ def updateData(connection, table, data, convert={}, key_id='cms_id'):
         else:
             print('数据类型不符,请使用list或者DataFrame')
             break
-        # connection = pysql.connect(host='10.10.60.31', port=3306, user='u_fk_data',
-        #                            password='0601a9c01b',db='fk_data',charset='utf8mb4',
-        #                            cursorclass = pysql.cursors.DictCursor)
-        # connection = pg.connect(database="pg_fk_data",
-        #                 user="postgres", password="qmqb",
-        #                 host="120.77.111.135", port="5432")
+        
+        #                            
 
         update_sql = ", ".join(['{0} = temp_table.temp_{0}'.format(key) for key, val in col_dict.items() if key != key_id])
         temp_table = ", ".join(['unnest(array{0}) as temp_{1}'.format(
